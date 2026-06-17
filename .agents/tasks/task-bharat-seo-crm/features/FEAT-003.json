@@ -2,7 +2,7 @@
   "id": "FEAT-003",
   "type": "feat",
   "description": "Create the complete website audit engine, Google profile audit, social audit, score calculation system, the lead-audit page, bulk-audit page, and the cron job for automated pending lead audits.",
-  "status": "pending",
+  "status": "in_progress",
   "steps": [
     "In functions.php, add auditWebsite($url) function that uses cURL to fetch the homepage HTML (with timeout, user-agent, following redirects). Extract and check all 30 audit points: website reachable, HTTP status code, HTTPS/SSL, page title, meta description, meta keywords, H1 tag, H2 tags, mobile viewport tag, canonical tag, robots meta tag, Open Graph tags, Twitter card tags, JSON-LD schema, local business schema, contact form detection, WhatsApp link detection, phone number detection, email detection, Google Map embed detection, social links (Instagram, Facebook, YouTube, LinkedIn, Twitter/X), image alt tags check, page size measurement, basic load time, internal links count, external links count. Return structured array with all findings.",
     "In functions.php, add auditGoogleProfile($leadData) function that evaluates: has Google listing (google_maps_url not empty), has phone, has website, has address, rating value, review count, category present, opening hours if available. Return structured score data.",

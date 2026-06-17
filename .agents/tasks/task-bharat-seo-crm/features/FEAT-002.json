@@ -2,7 +2,7 @@
   "id": "FEAT-002",
   "type": "feat",
   "description": "Create the Lead Search page with multi-source API integration (Google Places, SerpAPI, Apify, manual CSV), the CRM leads list page with filtering/sorting/pagination, the lead detail view page, and the CSV import page. Also create the deduplication logic.",
-  "status": "in_progress",
+  "status": "completed",
   "steps": [
     "Create admin/lead-search.php with a search form containing fields: Business type/niche (text), City (text), State (text), Country (text), Search radius (number), Maximum leads to fetch (number, default 100), Source dropdown (Google Places API / SerpAPI / Apify / CSV), Minimum rating (number), Maximum rating (number), Has website (select: yes/no/any), Has phone (select: yes/no/any). On form submit, call the appropriate source function and display results with save option.",
     "In functions.php, add searchGooglePlaces($params) function that uses cURL to call Google Places API nearby/textsearch endpoint with the configured API key from settings. Parse JSON response and normalize results into the standard lead fields array. Include proper error handling and rate limiting.",
@@ -31,5 +31,5 @@
     "Verify admin/lead-search.php, admin/leads.php, admin/lead-view.php, admin/import-csv.php all exist"
   ],
   "blocked_reason": null,
-  "findings": ""
+  "findings": "All 4 admin pages created and 6 functions added to functions.php. All php -l syntax checks pass. Functions verified to exist via require. The leads.php page uses a locally-scoped sortLink() helper function for column sort links. The deduplicateLead function uses REPLACE() SQL for phone normalization which works on MySQL but may need adjustment for other DBs."
 }

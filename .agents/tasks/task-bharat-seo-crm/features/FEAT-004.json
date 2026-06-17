@@ -1,0 +1,34 @@
+{
+  "id": "FEAT-004",
+  "type": "feat",
+  "description": "Create the outreach message generator, bulk outreach page, CSV export page, admin settings page, and the premium responsive CSS/JS assets for the entire admin panel.",
+  "status": "pending",
+  "steps": [
+    "In functions.php, add generateOutreachMessage($leadData, $auditData) function that generates WhatsApp messages based on audit results. For no website: 'Namaste sir, main Shivam Bharat SEO se hoon. Maine aapke business ka online presence check kiya. Aapka Google profile hai lekin website nahi mili. Agar website + WhatsApp enquiry button + Google Map SEO setup ho jaaye to customers direct call/WhatsApp kar sakte hain. Starter setup Rs.2,999 me available hai. Demo free dikha sakta hoon.' For weak website: include specific problems found. Make template customizable from settings.",
+    "Create admin/outreach.php as the bulk outreach page. Show leads table with select checkboxes, filtered to 'Audited' status. For selected leads: generate WhatsApp messages, show generated messages in cards with copy button, WhatsApp Web link (https://wa.me/PHONE?text=MESSAGE), mark as contacted button, add follow-up date. Do NOT send messages automatically - only generate for manual sending.",
+    "Create admin/export.php with export form: select fields to export (business name, phone, website, city, category, score, opportunity level, status, outreach message), filter by status/city/opportunity level, choose format (CSV). On submit, generate CSV file and trigger download with proper headers (Content-Type, Content-Disposition).",
+    "Create admin/settings.php with a comprehensive settings form containing sections: Agency Info (agency name, WhatsApp number, phone, email, default city), API Keys (Google Places API key, SerpAPI key, Apify API token), Search Defaults (default search source, max leads per search), Audit Settings (cURL timeout seconds, delay between audits in seconds), Package Texts (4 package name/price fields), Outreach Templates (editable message templates with placeholders). Save all to settings table using setSetting(). Load current values on page load.",
+    "Create assets/css/admin.css as a premium, mobile-responsive admin panel stylesheet. Include: CSS variables for brand colors (use professional blue/dark theme), responsive sidebar navigation (collapsible on mobile), card-based dashboard layout, data tables with hover states and responsive stacking on mobile, form styling with proper input groups, button styles (primary, secondary, danger, success), badge styles for status/opportunity levels, modal styles, toast/alert notifications, pagination styling, loading spinner, chart placeholder areas, proper typography, box shadows, transitions, and a clean professional aesthetic suitable for an agency tool.",
+    "Create assets/js/admin.js with JavaScript for: sidebar toggle on mobile, CSRF token handling for AJAX requests, confirm dialogs for delete actions, bulk select/deselect all checkboxes, copy to clipboard function for outreach messages, WhatsApp link generation, form validation, auto-dismiss alerts after 5 seconds, quick search functionality on dashboard, table sorting client-side, and any other interactive elements needed across admin pages."
+  ],
+  "acceptance_criteria": [
+    "All PHP files pass php -l syntax validation",
+    "functions.php contains generateOutreachMessage function with different templates based on audit results",
+    "admin/outreach.php shows leads with message generation and WhatsApp link creation",
+    "admin/export.php generates downloadable CSV with proper HTTP headers",
+    "admin/settings.php has form fields for all specified settings categories",
+    "assets/css/admin.css is comprehensive (500+ lines) with mobile responsive design using media queries",
+    "assets/js/admin.js provides sidebar toggle, copy to clipboard, bulk select, and form validation",
+    "The admin panel is fully mobile responsive with proper viewport handling",
+    "WhatsApp links use the format https://wa.me/PHONE?text=ENCODED_MESSAGE"
+  ],
+  "verification": [
+    "Run: find /projects/sandbox/startup -name '*.php' ! -path '*/.git/*' ! -path '*/.agents/*' -exec php -l {} \\;",
+    "Run: php -r \"require '/projects/sandbox/startup/functions.php'; echo function_exists('generateOutreachMessage') ? 'OK' : 'FAIL';\"",
+    "Verify assets/css/admin.css exists and contains @media queries for responsive design",
+    "Verify assets/js/admin.js exists and contains clipboard copy and sidebar toggle functions",
+    "Verify admin/settings.php, admin/outreach.php, admin/export.php all exist and pass syntax check"
+  ],
+  "blocked_reason": null,
+  "findings": ""
+}

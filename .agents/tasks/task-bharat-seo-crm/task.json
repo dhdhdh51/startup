@@ -1,0 +1,7 @@
+{
+  "task_id": "task-bharat-seo-crm",
+  "task_description": "Create a complete internal lead finder, scraper and auto audit CRM tool for Bharat SEO agency. Pure PHP application with MySQL, mobile-responsive admin panel, multi-source lead search (Google Places API, SerpAPI, Apify, CSV import), automated website/Google/social audits with scoring, CRM with deduplication, outreach message generation, and cron job support.",
+  "status": "in_progress",
+  "feature_order": ["FEAT-001", "FEAT-002", "FEAT-003", "FEAT-004"],
+  "blocked_reason": null
+}

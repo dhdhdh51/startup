@@ -1,0 +1,33 @@
+{
+  "id": "FEAT-001",
+  "type": "feat",
+  "description": "Create the complete database schema, configuration, and core PHP foundation files including config.php, functions.php, database.sql, session-based authentication system, admin header/footer includes, and the login/logout/dashboard pages.",
+  "status": "in_progress",
+  "steps": [
+    "Create config.php at project root with MySQL connection settings (host, db, user, pass as constants), site settings (SITE_NAME='Bharat SEO', TAGLINE), session configuration, CSRF token generation helper, and base URL constant.",
+    "Create database.sql with all 6 tables: admin_users (id, username, password_hash, created_at), leads (all 27+ fields including business_name, category, phone, email, website_url, google_maps_url, address, city, state, country, rating, review_count, latitude, longitude, source, source_id, status, opportunity_level, audit_score, recommended_package, outreach_message, notes, follow_up_date, last_audited_at, created_at, updated_at), lead_audits (all 35+ fields), lead_searches (id, niche, city, state, country, source, max_results, total_found, total_saved, total_duplicates, created_at), settings (id, setting_key, setting_value), activity_logs (id, action, details, created_at). Add INSERT for default admin user (admin/admin123 using password_hash) and default settings rows for all configurable options.",
+    "Create functions.php with core helper functions: db() for PDO singleton connection, requireLogin() for session check, csrf_token()/verify_csrf() for CSRF protection, sanitize() for htmlspecialchars output, getSetting()/setSetting() for settings table, logActivity() for activity logging, redirect() helper, formatDate() helper, getLeadStatusBadge() for status display, getOpportunityBadge() for opportunity level display, calculateAuditScore() stub, and pagination helper.",
+    "Create admin/includes/admin-header.php with full HTML5 doctype, meta viewport for mobile, link to assets/css/admin.css, navigation sidebar with links to all admin pages (Dashboard, Lead Search, Leads, Bulk Audit, Import CSV, Export, Outreach, Settings), agency branding (Bharat SEO), user info, logout link, CSRF token in meta tag for JS use, and main content area opening.",
+    "Create admin/includes/admin-footer.php with closing HTML tags, script tag for assets/js/admin.js, and any footer content.",
+    "Create admin/login.php with session-based login form (username, password), CSRF protection, password_verify authentication, redirect to dashboard on success, error message on failure. Default credentials: admin/admin123.",
+    "Create admin/logout.php that destroys session and redirects to login.",
+    "Create admin/dashboard.php with statistics cards (Total leads, New leads, Audited leads, High opportunity leads, Contacted leads, Converted leads, Average audit score), recent leads table (last 10), and a quick search box. All stats queried from leads table with proper SQL counts."
+  ],
+  "acceptance_criteria": [
+    "All PHP files pass php -l syntax validation",
+    "database.sql contains valid SQL with all 6 tables and correct field definitions",
+    "config.php defines DB constants and includes session_start",
+    "functions.php provides db(), requireLogin(), csrf_token(), verify_csrf(), sanitize(), getSetting(), logActivity() functions",
+    "admin/login.php has a login form with CSRF token and uses password_verify",
+    "admin/dashboard.php requires login and displays statistics from database queries",
+    "admin/includes/admin-header.php has responsive meta viewport and navigation links to all admin pages",
+    "Default admin INSERT in database.sql uses password_hash for admin123"
+  ],
+  "verification": [
+    "Run: find /projects/sandbox/startup -name '*.php' ! -path '*/.git/*' ! -path '*/.agents/*' -exec php -l {} \\;",
+    "Run: php -r \"include '/projects/sandbox/startup/config.php';\" to verify config loads without errors",
+    "Verify database.sql exists and contains CREATE TABLE statements for all 6 tables"
+  ],
+  "blocked_reason": null,
+  "findings": ""
+}

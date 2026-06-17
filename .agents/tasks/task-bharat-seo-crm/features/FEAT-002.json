@@ -1,0 +1,35 @@
+{
+  "id": "FEAT-002",
+  "type": "feat",
+  "description": "Create the Lead Search page with multi-source API integration (Google Places, SerpAPI, Apify, manual CSV), the CRM leads list page with filtering/sorting/pagination, the lead detail view page, and the CSV import page. Also create the deduplication logic.",
+  "status": "pending",
+  "steps": [
+    "Create admin/lead-search.php with a search form containing fields: Business type/niche (text), City (text), State (text), Country (text), Search radius (number), Maximum leads to fetch (number, default 100), Source dropdown (Google Places API / SerpAPI / Apify / CSV), Minimum rating (number), Maximum rating (number), Has website (select: yes/no/any), Has phone (select: yes/no/any). On form submit, call the appropriate source function and display results with save option.",
+    "In functions.php, add searchGooglePlaces($params) function that uses cURL to call Google Places API nearby/textsearch endpoint with the configured API key from settings. Parse JSON response and normalize results into the standard lead fields array. Include proper error handling and rate limiting.",
+    "In functions.php, add searchSerpAPI($params) function that uses cURL to call SerpAPI Google Maps endpoint with configured API key. Parse response and normalize to standard lead fields.",
+    "In functions.php, add searchApify($params) function that uses cURL to call Apify actor API with configured token. Parse response and normalize to standard lead fields.",
+    "In functions.php, add deduplicateLead($leadData) function that checks for duplicates by: phone number match, website URL match, business_name + city match, source_id match (Google place_id). If duplicate found, update missing fields where new data is better (non-empty replaces empty). Return array with 'is_duplicate' boolean and 'lead_id' if existing.",
+    "In functions.php, add saveLead($leadData) function that calls deduplicateLead first, then either inserts new lead or updates existing. Returns result with action taken (inserted/updated/skipped).",
+    "In functions.php, add saveSearchLog($searchParams, $results) to log the search in lead_searches table with total_found, total_saved, total_duplicates.",
+    "Create admin/leads.php as the CRM list page with a data table showing: Business name, City, Category, Phone, Website, Rating, Reviews, Audit score, Opportunity level, Status, Last audited date, Actions (View, Audit, Mark Contacted, Delete). Add filter sidebar/section with: City filter, Business type filter, Audit score range, Status dropdown, Has website (yes/no), Has WhatsApp (yes/no), High opportunity only checkbox, Rating range, Review count range. Add pagination (25 per page). Add bulk select checkboxes.",
+    "Create admin/lead-view.php that shows full lead profile: business details section, contact details, website details, Google profile details, social links found, audit score with breakdown, problems found list, recommendations list, suggested Bharat SEO package, auto-generated WhatsApp outreach message, notes textarea with save, follow-up date picker, status update dropdown. Load audit data from lead_audits table if available.",
+    "Create admin/import-csv.php with file upload form accepting CSV. Parse CSV with columns: business_name, phone, website, google_maps_url, address, city, category, rating, reviews. Run each row through deduplicateLead/saveLead. Display import results summary (imported, duplicates, errors)."
+  ],
+  "acceptance_criteria": [
+    "All PHP files pass php -l syntax validation",
+    "admin/lead-search.php has a form with all specified input fields and source dropdown",
+    "functions.php contains searchGooglePlaces, searchSerpAPI, searchApify functions using cURL",
+    "functions.php contains deduplicateLead function checking phone, website_url, business_name+city, source_id",
+    "admin/leads.php displays leads table with all specified columns and has filter form",
+    "admin/lead-view.php shows complete lead profile with audit results, package recommendation, and outreach message",
+    "admin/import-csv.php handles file upload and CSV parsing with deduplication",
+    "All admin pages include requireLogin() check and CSRF protection on forms"
+  ],
+  "verification": [
+    "Run: find /projects/sandbox/startup -name '*.php' ! -path '*/.git/*' ! -path '*/.agents/*' -exec php -l {} \\;",
+    "Run: php -r \"require '/projects/sandbox/startup/functions.php'; echo function_exists('searchGooglePlaces') && function_exists('deduplicateLead') ? 'OK' : 'FAIL';\"",
+    "Verify admin/lead-search.php, admin/leads.php, admin/lead-view.php, admin/import-csv.php all exist"
+  ],
+  "blocked_reason": null,
+  "findings": ""
+}

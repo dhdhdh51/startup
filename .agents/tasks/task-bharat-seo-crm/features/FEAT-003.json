@@ -1,0 +1,39 @@
+{
+  "id": "FEAT-003",
+  "type": "feat",
+  "description": "Create the complete website audit engine, Google profile audit, social audit, score calculation system, the lead-audit page, bulk-audit page, and the cron job for automated pending lead audits.",
+  "status": "pending",
+  "steps": [
+    "In functions.php, add auditWebsite($url) function that uses cURL to fetch the homepage HTML (with timeout, user-agent, following redirects). Extract and check all 30 audit points: website reachable, HTTP status code, HTTPS/SSL, page title, meta description, meta keywords, H1 tag, H2 tags, mobile viewport tag, canonical tag, robots meta tag, Open Graph tags, Twitter card tags, JSON-LD schema, local business schema, contact form detection, WhatsApp link detection, phone number detection, email detection, Google Map embed detection, social links (Instagram, Facebook, YouTube, LinkedIn, Twitter/X), image alt tags check, page size measurement, basic load time, internal links count, external links count. Return structured array with all findings.",
+    "In functions.php, add auditGoogleProfile($leadData) function that evaluates: has Google listing (google_maps_url not empty), has phone, has website, has address, rating value, review count, category present, opening hours if available. Return structured score data.",
+    "In functions.php, add auditSocial($websiteHtml) function that scans HTML for social media links: Instagram, Facebook, YouTube, LinkedIn, Twitter/X URLs. Return array of found links.",
+    "In functions.php, add/complete calculateAuditScore($websiteAudit, $googleAudit, $socialAudit) function with scoring: Website presence (15 pts), Website SEO basics (20 pts), Mobile readiness (10 pts), Local conversion elements (20 pts), Google profile strength (20 pts), Social presence (10 pts), Lead readiness (5 pts). If no website, website sections get 0. Return total score out of 100.",
+    "In functions.php, add getOpportunityLevel($score) function: 0-30=Very High Opportunity, 31-50=High Opportunity, 51-70=Medium Opportunity, 71-85=Low Opportunity, 86-100=Strong Online Presence.",
+    "In functions.php, add getProblems($auditData) function that generates human-readable problem list based on audit findings (e.g., 'No website found', 'Website does not use HTTPS', 'Missing meta description', etc.).",
+    "In functions.php, add getRecommendations($auditData) function that generates recommendations based on problems found.",
+    "In functions.php, add getPackageRecommendation($score, $hasWebsite) function: No website = Bharat Starter Package Rs.2,999; Website + score below 50 = Bharat Growth Package Rs.6,999 + Rs.999/month; Score 51-70 = Bharat Starter SEO Fix Package Rs.2,999; Score above 70 = Bharat Pro Package Rs.14,999 + Rs.2,999/month.",
+    "In functions.php, add performFullAudit($leadId) function that orchestrates the full audit: fetches lead from DB, runs website audit if URL exists, runs Google profile audit, runs social audit from website HTML, calculates score, determines opportunity level, generates problems/recommendations/package, saves to lead_audits table, updates lead record with score/opportunity/package/last_audited_at. Includes error handling.",
+    "Create admin/lead-audit.php that takes a lead_id parameter, runs performFullAudit(), and displays the results with score breakdown, problems, recommendations, and package suggestion. Include a 'Re-audit' button.",
+    "Create admin/bulk-audit.php with a list of leads that can be selected for bulk audit. On submit, process selected leads with a safe delay (sleep between audits, cURL timeout). Display progress results (audited count, errors). Include form to select: all unaudited leads, leads by city, leads by status.",
+    "Create cron/audit-pending-leads.php as a CLI-runnable script that: queries up to 10 leads where status='New' and last_audited_at is NULL, runs performFullAudit on each with delay between requests, logs results to activity_logs, handles errors gracefully without stopping the batch."
+  ],
+  "acceptance_criteria": [
+    "All PHP files pass php -l syntax validation",
+    "functions.php contains auditWebsite, auditGoogleProfile, auditSocial, calculateAuditScore, getOpportunityLevel, getProblems, getRecommendations, getPackageRecommendation, performFullAudit functions",
+    "calculateAuditScore returns value 0-100 with proper breakdown categories",
+    "getOpportunityLevel returns correct labels for all score ranges",
+    "getPackageRecommendation returns correct packages based on score and website presence",
+    "admin/lead-audit.php accepts lead_id and displays audit results",
+    "admin/bulk-audit.php allows selecting multiple leads and shows results",
+    "cron/audit-pending-leads.php is runnable from CLI and processes 10 leads per batch",
+    "Audit respects cURL timeout and includes delay between requests"
+  ],
+  "verification": [
+    "Run: find /projects/sandbox/startup -name '*.php' ! -path '*/.git/*' ! -path '*/.agents/*' -exec php -l {} \\;",
+    "Run: php -r \"require '/projects/sandbox/startup/functions.php'; echo function_exists('auditWebsite') && function_exists('calculateAuditScore') && function_exists('performFullAudit') ? 'OK' : 'FAIL';\"",
+    "Run: php -r \"require '/projects/sandbox/startup/functions.php'; echo getOpportunityLevel(25);\" should output 'Very High Opportunity'",
+    "Verify cron/audit-pending-leads.php exists and has proper CLI execution check"
+  ],
+  "blocked_reason": null,
+  "findings": ""
+}

@@ -1,0 +1,12 @@
+# Admin area protection
+# Ensure PHP sessions work properly
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+</IfModule>
+
+# Prevent access to include files directly
+<Files "includes">
+    Order Allow,Deny
+    Deny from all
+</Files>

@@ -1020,9 +1020,9 @@ function importCSV($filePath) {
 function exportLeadsCSV($filters = []) {
     $db = getDB();
     $where = buildLeadFilters($filters);
-    $sql = "SELECT * FROM leads" . ($where ? " WHERE " . $where['sql'] : "") . " ORDER BY created_at DESC";
+    $sql = "SELECT * FROM leads" . ($where['sql'] ? " WHERE " . $where['sql'] : "") . " ORDER BY created_at DESC";
     $stmt = $db->prepare($sql);
-    $stmt->execute($where['params'] ?? []);
+    $stmt->execute($where['params']);
     return $stmt->fetchAll();
 }
 

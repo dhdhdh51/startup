@@ -1,0 +1,3 @@
+# Prevent web access to cron files
+Order Allow,Deny
+Deny from all

@@ -3,7 +3,8 @@
  * Bharat SEO CRM - Cron: Audit Pending Leads
  * 
  * Run this via cron job:
- * */10 * * * * php /path/to/cron/audit-pending-leads.php
+ * Every 10 minutes: crontab -e and add:
+ * 0,10,20,30,40,50 * * * * php /path/to/cron/audit-pending-leads.php
  * 
  * Processes 10 leads per run with delay between each audit.
  */

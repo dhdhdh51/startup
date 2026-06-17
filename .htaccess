@@ -1,0 +1,37 @@
+# Bharat SEO CRM - Security Configuration
+# Protect sensitive files from direct access
+
+# Deny access to sensitive files
+<FilesMatch "\.(sql|log|md|json)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+
+# Deny access to config file
+<Files "config.php">
+    Order Allow,Deny
+    Deny from all
+</Files>
+
+# Deny access to functions file
+<Files "functions.php">
+    Order Allow,Deny
+    Deny from all
+</Files>
+
+# Deny access to .htaccess
+<Files ".htaccess">
+    Order Allow,Deny
+    Deny from all
+</Files>
+
+# Prevent directory listing
+Options -Indexes
+
+# PHP security headers
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>

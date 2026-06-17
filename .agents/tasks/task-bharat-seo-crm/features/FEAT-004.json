@@ -2,7 +2,7 @@
   "id": "FEAT-004",
   "type": "feat",
   "description": "Create the outreach message generator, bulk outreach page, CSV export page, admin settings page, and the premium responsive CSS/JS assets for the entire admin panel.",
-  "status": "pending",
+  "status": "in_progress",
   "steps": [
     "In functions.php, add generateOutreachMessage($leadData, $auditData) function that generates WhatsApp messages based on audit results. For no website: 'Namaste sir, main Shivam Bharat SEO se hoon. Maine aapke business ka online presence check kiya. Aapka Google profile hai lekin website nahi mili. Agar website + WhatsApp enquiry button + Google Map SEO setup ho jaaye to customers direct call/WhatsApp kar sakte hain. Starter setup Rs.2,999 me available hai. Demo free dikha sakta hoon.' For weak website: include specific problems found. Make template customizable from settings.",
     "Create admin/outreach.php as the bulk outreach page. Show leads table with select checkboxes, filtered to 'Audited' status. For selected leads: generate WhatsApp messages, show generated messages in cards with copy button, WhatsApp Web link (https://wa.me/PHONE?text=MESSAGE), mark as contacted button, add follow-up date. Do NOT send messages automatically - only generate for manual sending.",
